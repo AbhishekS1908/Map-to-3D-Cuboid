@@ -16,7 +16,7 @@ const App = () => {
     const { latLng } = map;
     const lat = latLng.lat();
     const lng = latLng.lng();
-setCenter({lng, lat})
+    setCenter({ lng, lat });
     setZoom(map.getZoom());
   };
 
@@ -67,8 +67,8 @@ setCenter({lng, lat})
   };
 
   const onResizeWindow = () => {
-    if (scene) {
-      scene.getEngine().resize();
+    if (scene.current) {
+      scene.current.getEngine().resize();
     }
   };
 
