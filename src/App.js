@@ -9,7 +9,15 @@ const App = () => {
   let scene = null;
   let canvas = null;
 
-  const handleMapChange = (map) => {
+  const handleMapChange = () => {
+    mapboxgl.accessToken =
+      "pk.eyJ1IjoiYWZuYW5uYXZheiIsImEiOiJjbGZkbTQ2bjEwdnNkM3FwZ2t4NmxvN3QzIn0.1Vu6w73vG25MjPt3d7D2Sw";
+    const map = new mapboxgl.Map({
+      container: "map",
+      style: "mapbox://styles/mapbox/streets-v11",
+      center: [center.lng, center.lat],
+      zoom,
+    });
     const newCenter = map.getCenter();
     setCenter({ lng: newCenter.lng, lat: newCenter.lat });
     setZoom(map.getZoom());
