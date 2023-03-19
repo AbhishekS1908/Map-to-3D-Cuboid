@@ -11,15 +11,20 @@ const App = () => {
   let canvas = null;
 
   const handleMapChange = (map) => {
-    const newCenter = map.getCenter();
-    setCenter({ lng: newCenter.lng, lat: newCenter.lat });
+    //const newCenter = e.getCenter()
+    //setCenter({ lng: newCenter.lng, lat: newCenter.lat });
+    const { latLng } = map;
+    const lat = latLng.lat();
+    const lng = latLng.lng();
+setCenter({lng, lat})
     setZoom(map.getZoom());
   };
 
   const handleCapture = () => {
     const map = document.querySelector(".mapboxgl-canvas");
     const image = new Image();
-    const accessToken = "pk.eyJ1IjoiYWZuYW5uYXZheiIsImEiOiJjbGZkbTQ2bjEwdnNkM3FwZ2t4NmxvN3QzIn0.1Vu6w73vG25MjPt3d7D2Sw";
+    const accessToken =
+      "pk.eyJ1IjoiYWZuYW5uYXZheiIsImEiOiJjbGZkbTQ2bjEwdnNkM3FwZ2t4NmxvN3QzIn0.1Vu6w73vG25MjPt3d7D2Sw";
 
     image.src = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${center.lng},${center.lat},${zoom},0,0/971x400?access_token=${accessToken}`;
     const canvas = document.createElement("canvas");
@@ -35,7 +40,11 @@ const App = () => {
       const material = new BABYLON.StandardMaterial("texture", scene.current);
       material.diffuseTexture = texture;
 
-      const box = BABYLON.MeshBuilder.CreateBox("box", { size: 1 }, scene.current);
+      const box = BABYLON.MeshBuilder.CreateBox(
+        "box",
+        { size: 1 },
+        scene.current
+      );
       box.material = material;
     };
   };
