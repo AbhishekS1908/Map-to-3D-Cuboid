@@ -6,7 +6,7 @@ import * as BABYLON from "babylonjs";
 const App = () => {
   const [center, setCenter] = useState({ lng: 0, lat: 0 });
   const [zoom, setZoom] = useState(10);
-  const scene = useRef(null);
+  const scene = useRef(0);
   // let scene = null;
   let canvas = null;
 
@@ -31,11 +31,11 @@ const App = () => {
     image.onload = () => {
       context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-      const texture = new BABYLON.Texture(image.src, scene);
-      const material = new BABYLON.StandardMaterial("texture", scene);
+      const texture = new BABYLON.Texture(image.src, scene.current);
+      const material = new BABYLON.StandardMaterial("texture", scene.current);
       material.diffuseTexture = texture;
 
-      const box = BABYLON.MeshBuilder.CreateBox("box", { size: 1 }, scene);
+      const box = BABYLON.MeshBuilder.CreateBox("box", { size: 1 }, scene.current);
       box.material = material;
     };
   };
@@ -69,11 +69,14 @@ const App = () => {
         preserveDrawingBuffer: true,
         stencil: true,
       });
-      scene.current = new BABYLON.Scene(engine);
-      onSceneMount({ scene, canvas });
+      // scene.current = new BABYLON.Scene(engine);
+      let sceneCurrent = new BABYLON.Scene(engine);
+      scene.current = sceneCurrent;
+      console.log(scene, scene.current);
+      onSceneMount({ sceneCurrent, canvas });
       engine.runRenderLoop(() => {
-        if (typeof scene !== "undefined") {
-          scene.render();
+        if (typeof sceneCurrent !== "undefined") {
+          sceneCurrent.render();
         }
       });
 
