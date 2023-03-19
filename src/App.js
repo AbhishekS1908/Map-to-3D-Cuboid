@@ -10,7 +10,7 @@ const App = () => {
   let canvas = null;
 
   const handleMapChange = (map) => {
-    const newCenter = map.getCenter();
+    const newCenter = setCenter();
     setCenter({ lng: newCenter.lng, lat: newCenter.lat });
     setZoom(map.getZoom());
   };
