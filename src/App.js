@@ -10,14 +10,14 @@ const App = () => {
   // let scene = null;
   let canvas = null;
 
-  const handleMapChange = (map) => {
+  const handleMapChange = (event) => {
     //const newCenter = e.getCenter()
     //setCenter({ lng: newCenter.lng, lat: newCenter.lat });
-    const { latLng } = map;
+    const { latLng } = event;
     const lat = latLng.lat();
     const lng = latLng.lng();
     setCenter({ lng, lat });
-    setZoom(map.getZoom());
+    setZoom(event.getZoom());
   };
 
   const handleCapture = () => {
