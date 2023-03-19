@@ -1,23 +1,16 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import * as BABYLON from "babylonjs";
 
 const App = () => {
   const [center, setCenter] = useState({ lng: 0, lat: 0 });
   const [zoom, setZoom] = useState(10);
-  let scene = null;
+  const scene = useRef(null);
+  // let scene = null;
   let canvas = null;
 
-  const handleMapChange = () => {
-    mapboxgl.accessToken =
-      "pk.eyJ1IjoiYWZuYW5uYXZheiIsImEiOiJjbGZkbTQ2bjEwdnNkM3FwZ2t4NmxvN3QzIn0.1Vu6w73vG25MjPt3d7D2Sw";
-    const map = new mapboxgl.Map({
-      container: "map",
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [center.lng, center.lat],
-      zoom,
-    });
+  const handleMapChange = (map) => {
     const newCenter = map.getCenter();
     setCenter({ lng: newCenter.lng, lat: newCenter.lat });
     setZoom(map.getZoom());
@@ -26,8 +19,7 @@ const App = () => {
   const handleCapture = () => {
     const map = document.querySelector(".mapboxgl-canvas");
     const image = new Image();
-    const accessToken =
-      "pk.eyJ1IjoiYWZuYW5uYXZheiIsImEiOiJjbGZkbTQ2bjEwdnNkM3FwZ2t4NmxvN3QzIn0.1Vu6w73vG25MjPt3d7D2Sw";
+    const accessToken = "pk.eyJ1IjoiYWZuYW5uYXZheiIsImEiOiJjbGZkbTQ2bjEwdnNkM3FwZ2t4NmxvN3QzIn0.1Vu6w73vG25MjPt3d7D2Sw";
 
     image.src = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${center.lng},${center.lat},${zoom},0,0/971x400?access_token=${accessToken}`;
     const canvas = document.createElement("canvas");
@@ -77,7 +69,7 @@ const App = () => {
         preserveDrawingBuffer: true,
         stencil: true,
       });
-      scene = new BABYLON.Scene(engine);
+      scene.current = new BABYLON.Scene(engine);
       onSceneMount({ scene, canvas });
       engine.runRenderLoop(() => {
         if (typeof scene !== "undefined") {
